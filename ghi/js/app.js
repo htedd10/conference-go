@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', async () => {
           const html = createCard(title, location, description, pictureUrl, date);
           const column = columns[colIndx % 3];
           column.innerHTML += html;
-          colIndx = (colIndx + 1) % 3;
+          colIndx = (colIndx + 1);
         }
       }
     }
