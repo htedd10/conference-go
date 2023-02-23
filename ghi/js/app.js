@@ -24,7 +24,7 @@ function createError(text) {
 
 window.addEventListener('DOMContentLoaded', async () => {
 
-  const url = 'http://localhost:8000/api/conferences1/';
+  const url = 'http://localhost:8000/api/conferences/';
   const columns = document.querySelectorAll('.col')
   let colIndx = 0;
 
