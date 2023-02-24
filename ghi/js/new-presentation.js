@@ -4,7 +4,6 @@ window.addEventListener(`DOMContentLoaded`, async () => {
         const response = await fetch(url);
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
             const selectTag = document.getElementById(`conference`);
             for (let conference of data.conferences) {
                 const option = document.createElement(`option`);
@@ -15,7 +14,6 @@ window.addEventListener(`DOMContentLoaded`, async () => {
             selectTag.addEventListener(`change`, () => {
                 const index = selectTag.selectedIndex;
                 const conferenceID = data.conferences[index-1].id;
-                console.log(conferenceID);
                 const formTag = document.getElementById(`create-presentation-form`);
                 formTag.addEventListener(`submit`, async event => {
                     event.preventDefault();
