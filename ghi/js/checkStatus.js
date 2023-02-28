@@ -26,4 +26,9 @@ if (payloadCookie) {
     const locationTag = document.getElementById('location-link');
     locationTag.classList.remove("d-none");
   }
+
+  if(payload.user.perms.includes("presentations.add_presentation")) {
+    const presentationTag = document.getElementById('presentation-link');
+    presentationTag.classList.remove("d-none");
+  }
 }
