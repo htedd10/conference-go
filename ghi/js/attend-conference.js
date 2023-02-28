@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         option.innerHTML = conference.name;
         selectTag.appendChild(option);
       }
+
     const loadingTag = document.getElementById('loading-conference-spinner');
     loadingTag.className = "d-none";
     selectTag.classList.remove("d-none");

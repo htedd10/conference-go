@@ -1,15 +1,5 @@
-import React from 'react';
-import Nav from './Nav';
-
-function App(props) {
-  if (props.attendees === undefined) {
-    return null;
-  }
-  return (
-    <React.Fragment>
-      <Nav />
-      <div className="container">
-        <table className="table table-striped">
+function AttendeesList(props) {
+        return (<table className="table table-striped">
           <thead>
             <tr>
               <th>Name</th>
@@ -27,9 +17,7 @@ function App(props) {
             })}
           </tbody>
         </table>
-      </div>
-    </React.Fragment>
-  );
+        );
 }
 
-export default App;
+export default AttendeesList;
