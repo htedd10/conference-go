@@ -5,7 +5,8 @@ function AttendeeForm () {
     const [conferences, setConferences] = useState([]);
     const [name, setName] = useState('');
     const [email,setEmail] = useState('');
-    const [conference,setConference] = useState('')
+    const [conference,setConference] = useState('');
+    const [submit, setSubmit] = useState(false);
 
     const handleNameChange = (event) => {
         const value = event.target.value;
@@ -22,54 +23,55 @@ function AttendeeForm () {
         setConference(value);
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const data = {
-            name,
-            email,
-            conference,
-        }
-
-        const attendeeUrl = `http://localhost:8001/api/attendees/`
-        const fetchConfig = {
-        method: "post",
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json',
-        }
-        }
-        const response = await fetch (attendeeUrl, fetchConfig);
-        if (response.ok) {
-        const successTag = document.getElementById('success-message');
-        successTag.classList.remove("d-none");
-        const formTag = document.getElementById('create-attendee-form');
-        formTag.className = "d-none";
-        const newAttendee = await response.json();
-        }
-
-    }
-
     const fetchData = async () => {
         const url = 'http://localhost:8000/api/conferences/';
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
           setConferences(data.conferences);
-
-          if (data.conferences.length > 0 ) {
-            const loadingTag = document.getElementById('loading-conference-spinner');
-            loadingTag.className = "d-none";
-            const selectTag = document.getElementById('conference');
-            selectTag.classList.remove("d-none");
-          } else {
-            const loadingTag = document.getElementById('loading-conference-spinner');
-            loadingTag.className = "d-none";
-            const noConferenceTag = document.getElementById('noConferences');
-            noConferenceTag.classList.remove("d-none");
-          }
         }
     }
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+
+      const data = {
+          name,
+          email,
+          conference,
+      }
+
+      const attendeeUrl = `http://localhost:8001/api/attendees/`
+      const fetchConfig = {
+      method: "post",
+      body: JSON.stringify(data),
+      headers: {
+          'Content-Type': 'application/json',
+      }
+      }
+      const response = await fetch (attendeeUrl, fetchConfig);
+      if (response.ok) {
+        const newAttendee = await response.json();
+        setName('');
+        setEmail('');
+        setConference('');
+        setSubmit(true);
+      }
+  }
+
+  let spinnerClasses = 'd-flex justify-content-center mb-3';
+  let dropdownClasses = 'form-select d-none';
+  if (conferences.length > 0) {
+    spinnerClasses = 'd-flex justify-content-center mb-3 d-none';
+    dropdownClasses = 'form-select';
+  }
+
+  let alertClasses = "alert alert-success d-none mb-0"
+  let formClasses = ""
+  if (submit) {
+    alertClasses = "alert alert-success mb-0"
+    formClasses = "d-none"
+  }
 
     useEffect(() => {
         fetchData();
@@ -85,19 +87,19 @@ function AttendeeForm () {
             <div className="col">
               <div className="card shadow">
                 <div className="card-body">
-                  <form onSubmit={handleSubmit} id="create-attendee-form">
+                  <form className={formClasses} onSubmit={handleSubmit} id="create-attendee-form">
                     <h1 className="card-title">It's Conference Time!</h1>
                     <p className="mb-3">
                       Please choose which conference
                       you'd like to attend.
                     </p>
-                    <div className="d-flex justify-content-center mb-3" id="loading-conference-spinner">
+                    <div className={spinnerClasses} id="loading-conference-spinner">
                       <div className="spinner-grow text-secondary" role="status">
                         <span className="visually-hidden">Loading...</span>
                       </div>
                     </div>
                     <div className="mb-3">
-                      <select onChange={handleConferenceChange} name="conference" id="conference" className="form-select d-none" required>
+                      <select onChange={handleConferenceChange} name="conference" id="conference" className={dropdownClasses} required>
                         <option value="">Choose a conference</option>
                         {conferences.map(conference => {
                         return (
@@ -107,9 +109,6 @@ function AttendeeForm () {
                         );
                         })};
                       </select>
-                    </div>
-                    <div className="mb-3">
-                        <p className="d-none fw-bold" id="noConferences">There are no conferences</p>
                     </div>
                     <p className="mb-3">
                       Now, tell us about yourself.
@@ -130,7 +129,7 @@ function AttendeeForm () {
                     </div>
                     <button className="btn btn-lg btn-primary">I'm going!</button>
                   </form>
-                  <div className="alert alert-success d-none mb-0" id="success-message">
+                  <div className={alertClasses} id="success-message">
                     Congratulations! You're all signed up!
                   </div>
                 </div>

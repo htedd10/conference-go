@@ -37,7 +37,6 @@ function LocationForm () {
             state,
         }
 
-        console.log(JSON.stringify(data));
         const locationUrl = 'http://localhost:8000/api/locations/';
         const fetchConfig = {
             method: "post",
