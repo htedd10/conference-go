@@ -69,8 +69,6 @@ function ConferenceForm() {
         const response = await fetch (conferenceUrl, fetchConfig);
 
         if (response.ok) {
-            const newConference = await response.json();
-
             setName('');
             setStarts('');
             setEnds('');

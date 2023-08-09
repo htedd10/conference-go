@@ -61,8 +61,6 @@ function PresentationForm() {
         };
         const response = await fetch (presentationUrl, fetchConfig);
         if (response.ok) {
-            const newPresentation = await response.json();
-
             setName('');
             setEmail('');
             setCompanyName('');
